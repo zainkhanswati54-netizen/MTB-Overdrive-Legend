@@ -33,6 +33,34 @@ se chalti hai.
   rendering, HUD (distance + best distance saved via Preferences)
 - `MenuScreen.kt` — basic start screen
 
+## GitHub se APK build karna (Android Studio ke bina)
+
+Maine `android` module, Gradle setup, aur ek GitHub Actions workflow
+(`.github/workflows/android-build.yml`) add kar diya hai jo apne aap
+debug APK bana dega — tumhe apne computer pe kuch install karne ki
+zaroorat nahi.
+
+1. Is poore `mtbgame` folder ko ek naye GitHub repository mein push karo:
+   ```
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin <tumhari-repo-ka-URL>
+   git push -u origin main
+   ```
+2. GitHub par apni repo kholo → **Actions** tab pe jao.
+3. "Build Android APK" workflow apne aap chalegi (push hote hi), ya
+   tum "Run workflow" button se manually bhi trigger kar sakte ho.
+4. Build complete hone ke baad, us workflow run ke andar niche
+   **Artifacts** section mein `mtbgame-debug-apk` milega — usse
+   download karke apne phone pe install kar sakte ho (Unknown
+   Sources allow karna padega).
+
+Note: abhi koi custom app icon nahi hai (default Android icon use
+hoga) — agar chaho to baad mein `android/src/main/res/mipmap-*`
+folders mein apna icon daal sakte ho.
+
 ## Aage kya banana hai (next steps)
 
 1. Real touch buttons (throttle/brake/lean) UI overlay — Android ke liye zaroori

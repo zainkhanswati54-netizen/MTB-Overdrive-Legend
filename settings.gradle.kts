@@ -1,2 +1,10 @@
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "mtbgame"
-include("core", "desktop")
+include("core", "desktop", "android")
