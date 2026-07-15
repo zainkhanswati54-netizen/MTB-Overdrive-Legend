@@ -42,6 +42,7 @@ jobs:
           path: build.log
 
       - name: Upload APK artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: mtbgame-debug-apk
