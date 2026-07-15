@@ -28,7 +28,18 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build debug APK
-        run: ./gradlew :android:assembleDebug --stacktrace
+        run: ./gradlew :android:assembleDebug --stacktrace --info | tee build.log
+
+      - name: Show compiler errors if failed
+        if: failure()
+        run: grep -n "error:" build.log || echo "No 'error:' lines found, check build.log artifact"
+
+      - name: Upload full build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
