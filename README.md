@@ -5,10 +5,25 @@ Yeh **Mountain Bike Xtreme** jaisi game ka clone hai, ab proper game-engine stac
 ke liye industry-standard hai — Box2D wheel joints, gravity, terrain collision
 sab natively milte hain.
 
-## Abhi tak kya bana hai
-1. **Continue Screen** — splash / tap-to-continue, exit + settings icons
-2. **Map / Environment Selection Screen** — swipeable carousel (Mountains, Forest, Hills, Desert), drag se scroll hoti hai
-3. **Box2D physics scaffold** (`BikePhysicsWorld.kt`) — chassis + 2 wheels + revolute joints, gravity world. Abhi kisi screen se connected nahi hai, agla step (gameplay) seedha isi pe banega.
+## Abhi tak kya bana hai (FULL GAME LOOP)
+1. **Continue Screen** — splash / tap-to-continue
+2. **Main Menu** — Best Distance / Total Distance (persisted on-device via LibGDX Preferences), Tap to Start, Shop, Environment Settings gear
+3. **Map / Environment Selection** — swipeable carousel (Mountains, Forest, Hills, Desert)
+4. **Shop** — cosmetic bike-color preview (placeholder, easy to extend into real purchases)
+5. **Gameplay** — the real game:
+   - Procedurally generated infinite rolling terrain (deterministic per biome seed), streamed in/out as you ride
+   - Real Box2D bike: chassis + 2 motorised wheels + torso + head, with lean/pedal/brake controls
+   - Camera follows the bike smoothly
+   - Coins scattered along the terrain, collectible
+   - Crash detection (bike flips past ~78°) — shows a "Crashed!" overlay with distance, tap to restart
+   - Pause button — pause/resume, or exit to Main Menu (commits your run's distance to Best/Total first)
+   - HUD: timer, distance, coins
+
+## Controls (gameplay screen)
+- **Bottom-right big circle** — pedal / accelerate
+- **Bottom-right "no entry" circle** — brake
+- **Bottom-left two circles** — lean forward / lean backward (balance, wheelies, jumps)
+- **Top-left gear icon** — pause
 
 ## Module structure
 ```

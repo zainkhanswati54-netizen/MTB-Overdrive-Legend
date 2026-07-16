@@ -124,12 +124,12 @@ class MapSelectionScreen(private val game: MountainBikeGame) : Screen {
 
             suppressDragThisTouch = when {
                 backRegion.contains(touchPoint.x, touchPoint.y) -> {
-                    game.goToContinueScreen()
+                    game.goToMainMenu()
                     true
                 }
                 selectRegion.contains(touchPoint.x, touchPoint.y) -> {
                     game.selectedBiome = environments[currentIndex]
-                    // Next step: navigate to main menu / gameplay (not built yet)
+                    game.goToMainMenu()
                     true
                 }
                 else -> false
