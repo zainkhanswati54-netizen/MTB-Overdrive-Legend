@@ -32,19 +32,63 @@ MBX/
 
 ## Kaise chalayein
 
-### PC pe test karne ke liye (sabse tez):
+### PC pe test karne ke liye (sabse tez, agar chahen):
+Iss project mein `gradlew` wrapper script shamil nahi hai (uska binary jar
+generate karne ke liye internet chahiye hota hai). Do options hain:
+
+**Option A — khud wrapper generate kar lein** (agar aapke pass Gradle already installed hai):
 ```
+gradle wrapper --gradle-version 8.7
 ./gradlew desktop:run
 ```
-(Windows pe `gradlew.bat desktop:run`)
 
-### Android pe:
-1. Android Studio mein `MBX` folder open karein.
-2. Gradle sync hone dein.
-3. `android` run configuration select karke device/emulator pe **Run ▶** karein.
+**Option B — seedha system Gradle se run karein** (Gradle installed hona chahiye — `sdk install gradle` via SDKMAN, ya apna package manager):
+```
+gradle desktop:run
+```
 
-> Agar `gradlew`/`gradlew.bat` missing error aaye, Android Studio khud "Recreate
-> Gradle Wrapper" offer karega — accept kar dein.
+Agar aap sirf Android APK chahte hain (GitHub Actions se), toh yeh step
+zaroori nahi — seedha neeche wale section pe jayein.
+
+### Android pe — GitHub Actions se (Android Studio ki zaroorat nahi)
+
+Iss repo mein `.github/workflows/android-build.yml` already add ki hui hai. Yeh
+workflow GitHub ke servers pe APK build karti hai aur usse ek downloadable
+**artifact** ke tor pe upload kar deti hai.
+
+**Steps:**
+1. Iss poore `MBX` folder ko apne GitHub repo mein push karein:
+   ```
+   cd MBX
+   git init
+   git add .
+   git commit -m "Mountain Bike Xtreme - continue + map selection screens"
+   git branch -M main
+   git remote add origin https://github.com/<aap-ka-username>/<repo-name>.git
+   git push -u origin main
+   ```
+2. GitHub pe apne repo ke **Actions** tab pe jayein — push hote hi workflow khud
+   chal jayegi (ya "Run workflow" button se manually bhi chala sakte hain,
+   kyunke `workflow_dispatch` enabled hai).
+3. Build complete hone ke baad (~3-5 min), workflow run ke page ke neeche
+   **Artifacts** section mein `mountain-bike-xtreme-debug-apk` milega —
+   usse download kar lein (ek `.zip` milega jisme APK hoga).
+4. Zip se APK nikal ke apne phone pe transfer karein (USB, Google Drive,
+   WhatsApp, jo bhi tareeqa aasan ho).
+5. Phone pe **Settings > Install unknown apps** se us app (jis se APK open
+   kar rahe hain, e.g. Files) ko permission dein, phir APK tap karke install
+   kar lein.
+
+> Note: GitHub Artifacts download karne ke liye GitHub account se logged-in
+> hona zaroori hai (private ya public dono repos ke liye) — yeh sirf browser
+> se PC pe download hota hai, phone browser se seedha nahi (GitHub login flow
+> ki wajah se). Isiliye PC pe download karke phir phone pe transfer karna
+> sabse aasan raasta hai.
+
+### Android Studio se (agar kabhi zaroorat pade):
+1. `MBX` folder open karein, Gradle sync hone dein, `android` run config select
+   karke Run karein.
+
 
 ## Design notes
 - Har screen ka background **procedurally drawn** hai (ShapeRenderer se — sky gradient +
