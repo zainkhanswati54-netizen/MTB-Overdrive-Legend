@@ -1,43 +1,66 @@
-# Mountain Bike Xtreme — Kotlin Clone (Work in Progress)
+# Mountain Bike Xtreme — Kotlin + LibGDX + Box2D Clone (Work in Progress)
 
-Yeh project **Mountain Bike Xtreme** jaisi game ka clone hai, Kotlin + Jetpack Compose mein.
-Abhi tak sirf 2 screens ban chuki hain jaisa aap ne request kiya tha:
+Yeh **Mountain Bike Xtreme** jaisi game ka clone hai, ab proper game-engine stack pe:
+**Kotlin + LibGDX + Box2D**. Yeh stack is genre (physics-based bike/ragdoll games)
+ke liye industry-standard hai — Box2D wheel joints, gravity, terrain collision
+sab natively milte hain.
 
-1. **Continue Screen** (`ContinueScreen.kt`) — splash/tap-to-continue screen, exit + settings icons ke sath
-2. **Map / Environment Selection Screen** (`MapSelectionScreen.kt`) — swipeable cards: Mountains, Forest, Hills, Desert
+## Abhi tak kya bana hai
+1. **Continue Screen** — splash / tap-to-continue, exit + settings icons
+2. **Map / Environment Selection Screen** — swipeable carousel (Mountains, Forest, Hills, Desert), drag se scroll hoti hai
+3. **Box2D physics scaffold** (`BikePhysicsWorld.kt`) — chassis + 2 wheels + revolute joints, gravity world. Abhi kisi screen se connected nahi hai, agla step (gameplay) seedha isi pe banega.
 
-## Project structure
+## Module structure
 ```
-app/src/main/java/com/example/mountainbikextreme/
-├── MainActivity.kt                  -> navigation graph (Continue -> Map Selection)
-├── ui/
-│   ├── screens/
-│   │   ├── ContinueScreen.kt
-│   │   └── MapSelectionScreen.kt
-│   ├── components/
-│   │   ├── EnvironmentBackground.kt -> procedural parallax silhouette scenes (no image assets needed)
-│   │   └── BikeRiderIcon.kt         -> simple bike/rider silhouette icon
-│   └── theme/
-│       ├── Color.kt
-│       ├── Theme.kt
-│       └── Type.kt
+MBX/
+├── core/       -> saari game logic (screens, rendering, physics) — platform-independent
+│   └── src/main/kotlin/com/example/mbx/
+│       ├── MountainBikeGame.kt      -> Game class, entry point
+│       ├── Assets.kt                -> shared batch/font/shaperenderer
+│       ├── screens/
+│       │   ├── ContinueScreen.kt
+│       │   └── MapSelectionScreen.kt
+│       ├── render/
+│       │   ├── Biome.kt             -> environment enum + color palettes
+│       │   ├── ParallaxRenderer.kt  -> procedural parallax scenes (no image assets)
+│       │   └── IconRenderer.kt      -> bike/gear/arrow icons, drawn with ShapeRenderer
+│       └── physics/
+│           └── BikePhysicsWorld.kt  -> Box2D scaffold for next step
+├── android/    -> Android launcher (thin wrapper)
+└── desktop/    -> LWJGL3 launcher — run on PC for fast iteration, no emulator needed
 ```
 
-## Kaise chalayein (How to run)
-1. Android Studio (Koala ya newer) mein `MountainBikeXtreme` folder ko **File > Open** se open karein.
-2. Gradle sync hone dein (agar wrapper jar missing error aaye, Android Studio khud offer karega "Recreate Gradle Wrapper" — accept kar dein, ya `File > Sync Project with Gradle Files`).
-3. Emulator ya real device pe **Run ▶** karein.
-4. App "Tap to continue" screen se shuru hogi, tap karne pe seedha **Environment Selection** screen khulegi.
+## Kaise chalayein
+
+### PC pe test karne ke liye (sabse tez):
+```
+./gradlew desktop:run
+```
+(Windows pe `gradlew.bat desktop:run`)
+
+### Android pe:
+1. Android Studio mein `MBX` folder open karein.
+2. Gradle sync hone dein.
+3. `android` run configuration select karke device/emulator pe **Run ▶** karein.
+
+> Agar `gradlew`/`gradlew.bat` missing error aaye, Android Studio khud "Recreate
+> Gradle Wrapper" offer karega — accept kar dein.
 
 ## Design notes
-- Backgrounds real images nahi hain — pure Canvas code se procedurally draw kiye gaye hain (parallax hills + pine trees / cactus silhouettes), taake abhi assets ki zaroorat na pade. Baad mein aap chahen to actual PNG/SVG art se replace kar sakte hain.
-- Colors aapke screenshots ke teal/forest palette se match karne ki koshish ki gayi hai.
-- Screen orientation **landscape** rakhi gayi hai, jaisa original game mein hai.
+- Har screen ka background **procedurally drawn** hai (ShapeRenderer se — sky gradient +
+  layered hills + pine trees/cactus), koi image asset nahi use hui. Baad mein
+  chahen to real PNG/texture-atlas art se replace kar sakte hain.
+- Screens `com.badlogic.gdx.Screen` interface implement karte hain, `FitViewport`
+  (1200x675 virtual size) use karte hain taake sab device sizes pe sahi letterbox ho.
+- Touch input polling-based hai (`Gdx.input.isTouched()`, `deltaX/deltaY`) — koi
+  Scene2D UI/Skin asset ki zaroorat nahi.
 
-## Next steps (jab aap ready hon)
+## Next steps
 - Main menu screen (Best Distance / Total Distance / Tap to start / Shop)
-- Actual gameplay: physics-based bike + rider ragdoll, tilt controls, terrain generation
-- Shop screen
-- Pause/crash overlay
+- Gameplay: `BikePhysicsWorld` ko ek nayi `GameplayScreen` se connect karna —
+  tilt/lean controls, terrain generation (chain of `EdgeShape` segments), camera follow, crash detection
+- Rider ragdoll (multiple Box2D bodies + revolute joints for limbs)
+- Shop screen, pause/crash overlay
 
-Bata dijiye ke agla step kya banana hai — main menu ya seedha gameplay physics?
+Bata dijiye agla step kya banana hai — **main menu**, ya seedha **gameplay physics**
+(bike controls + terrain) pe chalein?
