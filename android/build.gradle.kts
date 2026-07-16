@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation("com.badlogicgames.gdx:gdx:${rootProject.property("gdxVersion")}")
     implementation("com.badlogicgames.gdx:gdx-backend-android:${rootProject.property("gdxVersion")}")
     implementation("com.badlogicgames.gdx:gdx-platform:${rootProject.property("gdxVersion")}:natives-armeabi-v7a")
     implementation("com.badlogicgames.gdx:gdx-platform:${rootProject.property("gdxVersion")}:natives-arm64-v8a")
