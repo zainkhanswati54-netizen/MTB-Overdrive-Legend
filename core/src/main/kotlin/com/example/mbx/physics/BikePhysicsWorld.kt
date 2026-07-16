@@ -1,6 +1,7 @@
 package com.example.mbx.physics
 
 import com.badlogic.gdx.physics.box2d.*
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Disposable
 
