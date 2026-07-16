@@ -38,7 +38,7 @@ object ParallaxRenderer {
             val baselineY = y + height * baselineFrac
             val amplitude = height * amplitudeFrac
 
-            drawHillLayer(sr, x, y, width, height, baselineY, amplitude, palette.layers[i], rng)
+            drawHillLayer(sr, x, y, width, baselineY, amplitude, palette.layers[i], rng)
 
             if (biome != Biome.DESERT) {
                 val treeCount = 5 + i * 3
@@ -66,7 +66,7 @@ object ParallaxRenderer {
 
     private fun drawHillLayer(
         sr: ShapeRenderer,
-        x: Float, y: Float, width: Float, height: Float,
+        x: Float, y: Float, width: Float,
         baselineY: Float, amplitude: Float, color: Color, rng: Random
     ) {
         val segments = 6

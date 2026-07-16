@@ -1,10 +1,11 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    id("java-library")
 }
 
 dependencies {
-    implementation("com.badlogicgames.gdx:gdx:${property("gdxVersion")}")
-    implementation("com.badlogicgames.gdx:gdx-box2d:${property("gdxVersion")}")
+    api("com.badlogicgames.gdx:gdx:${property("gdxVersion")}")
+    api("com.badlogicgames.gdx:gdx-box2d:${property("gdxVersion")}")
 }
 
 java {

@@ -5,6 +5,8 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
+    implementation("com.badlogicgames.gdx:gdx:${property("gdxVersion")}")
+    implementation("com.badlogicgames.gdx:gdx-box2d:${property("gdxVersion")}")
     implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:${property("gdxVersion")}")
     implementation("com.badlogicgames.gdx:gdx-platform:${property("gdxVersion")}:natives-desktop")
     implementation("com.badlogicgames.gdx:gdx-box2d-platform:${property("gdxVersion")}:natives-desktop")
